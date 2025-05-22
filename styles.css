@@ -91,3 +91,17 @@ body {
     background-color: #b0b0b0;
     color: #3a3a3a;
 }
+
+.button.clear:hover ,
+.button.backspace:hover ,
+.button.percent:hover {
+    background-color: #c0c0c0;
+}
+
+.button.equals {
+    background-color: #2c93d9;
+}
+
+.button.equals:hover {
+    background-color: #38a2e5;
+}
