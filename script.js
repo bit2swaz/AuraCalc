@@ -12,6 +12,9 @@ const operatorButtons = document.querySelectorAll('.button.operator');
 const decimalButton = document.querySelector('.button.decimal');
 const initialMainDisplayFontSize = 2.8;
 
+const themeToggleBtn = document.getElementById('themeToggle');
+const body = document.body;
+
 function updateDisplay() {
     mainDisplay.style.fontSize = `${initialMainDisplayFontSize}em`;
     mainDisplay.textContent = currentDisplayValue;
@@ -41,6 +44,8 @@ function removeOperatorActiveClass() {
 
 updateDisplay();
 historyDisplay.textContent = '';
+
+themeToggleBtn.addEventListener('click', toggleTheme);
 
 buttons.forEach(button => {
     button.addEventListener('click', () => {
@@ -252,7 +257,8 @@ function handlePercentClick() {
         lastOperatorUsed = operator;
         operator = null;
     } else {
-        currentDisplayValue = String(num / 100);
+        const result = num / 100;
+        currentDisplayValue = String(result);
         historyDisplay.textContent = `${num}% =`;
         firstOperand = Number(currentDisplayValue);
         lastSecondOperand = null;
@@ -333,3 +339,15 @@ const operate = (op, num1, num2) => {
 
     return roundedResult;
 };
+
+function toggleTheme() {
+    body.classList.toggle('light-mode');
+    const icon = themeToggleBtn.querySelector('i');
+    if (body.classList.contains('light-mode')) {
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+    } else {
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+    }
+}
