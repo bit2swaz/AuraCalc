@@ -60,14 +60,14 @@ body {
     align-items: center;
     max-width: 400px;
     width: 100%;
-    margin: 20px auto;
+    margin: 40px auto 20px auto; /* Adjusted margin: top, right, bottom, left */
     padding: 0;
     box-shadow: 0 10px 30px var(--shadow-color);
     border-radius: 12px;
     background-color: var(--page-wrapper-bg);
     transition: box-shadow 0.3s ease, background-color 0.3s ease;
     flex-grow: 1;
-    justify-content: center;
+    /* Removed justify-content: center; to prevent vertical centering */
 }
 
 .mode-toggle {
