@@ -7,6 +7,7 @@ const mainDisplay = document.querySelector('.main-display');
 const historyDisplay = document.querySelector('.history-display');
 const buttons = document.querySelectorAll('.button');
 const operatorButtons = document.querySelectorAll('.button.operator');
+const decimalButton = document.querySelector('.button.decimal');
 
 function updateDisplay() {
     if (currentDisplayValue.length > 12 && currentDisplayValue !== 'ERROR: Div/0!') {
@@ -20,6 +21,12 @@ function updateDisplay() {
         }
     }
     mainDisplay.textContent = currentDisplayValue;
+
+    if (currentDisplayValue.includes('.')) {
+        decimalButton.disabled = true;
+    } else {
+        decimalButton.disabled = false;
+    }
 }
 
 function removeOperatorActiveClass() {
@@ -39,11 +46,7 @@ buttons.forEach(button => {
             handleDigitClick(buttonText);
         }
         else if (button.classList.contains('operator')) {
-            let opSymbol = buttonText;
-            if (button.classList.contains('percent')) {
-                 opSymbol = '%';
-            }
-            handleOperatorClick(opSymbol);
+            handleOperatorClick(buttonText);
         }
         else if (button.classList.contains('equals')) {
             handleEqualsClick();
@@ -53,6 +56,12 @@ buttons.forEach(button => {
         }
         else if (button.classList.contains('backspace')) {
             handleBackspaceClick();
+        }
+        else if (button.classList.contains('sign-change')) {
+            handleSignChangeClick();
+        }
+        else if (button.classList.contains('percent')) {
+            handlePercentClick();
         }
 
         updateDisplay();
@@ -66,6 +75,7 @@ function handleDigitClick(digit) {
         currentDisplayValue = digit;
         waitingForSecondOperand = false;
         historyDisplay.textContent = '';
+        decimalButton.disabled = false;
     } else {
         if (currentDisplayValue === '0' && digit !== '.') {
             currentDisplayValue = digit;
@@ -93,8 +103,6 @@ function handleOperatorClick(nextOperator) {
         buttons.forEach(button => {
             if (button.classList.contains('operator') && button.textContent === nextOperator) {
                 button.classList.add('active');
-            } else if (button.classList.contains('operator') && button.classList.contains('percent') && nextOperator === '%') {
-                 button.classList.add('active');
             }
         });
         return;
@@ -126,8 +134,6 @@ function handleOperatorClick(nextOperator) {
     buttons.forEach(button => {
         if (button.classList.contains('operator') && button.textContent === nextOperator) {
             button.classList.add('active');
-        } else if (button.classList.contains('operator') && button.classList.contains('percent') && nextOperator === '%') {
-             button.classList.add('active');
         }
     });
 }
@@ -168,6 +174,7 @@ function handleClearClick() {
     waitingForSecondOperand = false;
     historyDisplay.textContent = '';
     removeOperatorActiveClass();
+    decimalButton.disabled = false;
 }
 
 function handleBackspaceClick() {
@@ -175,11 +182,41 @@ function handleBackspaceClick() {
         return;
     }
 
+    if (currentDisplayValue.slice(-1) === '.') {
+        decimalButton.disabled = false;
+    }
+
     if (currentDisplayValue.length > 1) {
         currentDisplayValue = currentDisplayValue.slice(0, -1);
     } else {
         currentDisplayValue = '0';
+        decimalButton.disabled = false;
     }
+}
+
+function handlePercentClick() {
+    let num = Number(currentDisplayValue);
+
+    if (firstOperand !== null && operator !== null && !waitingForSecondOperand) {
+        let percentageValue = firstOperand * (num / 100);
+        if (operator === '+' || operator === '-') {
+            currentDisplayValue = String(percentageValue);
+        } else if (operator === '*' || operator === '/') {
+            currentDisplayValue = String(num / 100);
+        }
+    } else {
+        currentDisplayValue = String(num / 100);
+    }
+    waitingForSecondOperand = true;
+    historyDisplay.textContent = '';
+    removeOperatorActiveClass();
+}
+
+function handleSignChangeClick() {
+    if (currentDisplayValue === 'ERROR: Div/0!') {
+        return;
+    }
+    currentDisplayValue = String(Number(currentDisplayValue) * -1);
 }
 
 function handleKeyboardInput(e) {
@@ -203,7 +240,7 @@ function handleKeyboardInput(e) {
         handleClearClick();
     }
     else if (e.key === '%') {
-        handleOperatorClick(e.key);
+        handlePercentClick();
     }
     updateDisplay();
 }
