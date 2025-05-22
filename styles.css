@@ -44,3 +44,10 @@ body {
     word-wrap: break-word;
     white-space: normal;
 }
+
+.buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
