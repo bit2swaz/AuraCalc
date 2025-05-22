@@ -52,27 +52,23 @@ body {
     min-height: 100vh;
     background-color: var(--body-bg);
     transition: background-color 0.3s ease;
+    position: relative;
 }
 
 .page-wrapper {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    flex-grow: 1;
+    margin: 0 auto;
     max-width: 400px;
     width: 100%;
-    margin: 40px auto 20px auto; /* Adjusted margin: top, right, bottom, left */
-    padding: 0;
-    box-shadow: 0 10px 30px var(--shadow-color);
-    border-radius: 12px;
-    background-color: var(--page-wrapper-bg);
-    transition: box-shadow 0.3s ease, background-color 0.3s ease;
-    flex-grow: 1;
-    /* Removed justify-content: center; to prevent vertical centering */
 }
 
 .mode-toggle {
-    align-self: flex-end;
-    margin-bottom: 10px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
     z-index: 10;
 }
 
@@ -101,6 +97,7 @@ body {
     transition: background-color 0.3s ease;
     width: 100%;
     box-sizing: border-box;
+    box-shadow: 0 10px 30px var(--shadow-color);
 }
 
 .display-container {
