@@ -42,9 +42,13 @@ body {
     font-weight: 700;
     min-height: 1.5em;
     word-wrap: break-word;
-    white-space: normal;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    line-height: 1;
 }
 
 .buttons-container {
