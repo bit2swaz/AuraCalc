@@ -3,56 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Best Calculator</title>
-    <link rel="stylesheet" href="./styles.css">
+    <title>Awesome Calculator</title>
+    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
-    <div class="calculator-body">
-        <div class="display-container">
-            <div class="history-display"></div>
-            <div class="main-display">0</div>
+    <div class="main-container">
+        <div class="mode-toggle">
+            <button id="themeToggle" class="button">
+                <i class="fas fa-moon"></i>
+            </button>
         </div>
 
-        <div class="buttons-container">
-            <div class="button-row">
-                <button class="button clear">C</button>
-                <button class="button backspace">←</button>
-                <button class="button percent">%</button>
-                <button class="button operator divide">/</button>
+        <div class="calculator-wrapper">
+            <div class="calculator-body">
+                <div class="display-container">
+                    <div class="history-display"></div>
+                    <div class="main-display">0</div>
+                </div>
+
+                <div class="buttons-container">
+                    <div class="button-row">
+                        <button class="button clear">C</button>
+                        <button class="button backspace">←</button>
+                        <button class="button percent">%</button>
+                        <button class="button operator divide">/</button>
+                    </div>
+
+                    <div class="button-row">
+                        <button class="button digit">7</button>
+                        <button class="button digit">8</button>
+                        <button class="button digit">9</button>
+                        <button class="button operator multiply">*</button>
+                    </div>
+
+                    <div class="button-row">
+                        <button class="button digit">4</button>
+                        <button class="button digit">5</button>
+                        <button class="button digit">6</button>
+                        <button class="button operator subtract">-</button>
+                    </div>
+
+                    <div class="button-row">
+                        <button class="button digit">1</button>
+                        <button class="button digit">2</button>
+                        <button class="button digit">3</button>
+                        <button class="button operator add">+</button>
+                    </div>
+
+                    <div class="button-row last-row">
+                        <button class="button sign-change">+/-</button>
+                        <button class="button digit zero-button">0</button>
+                        <button class="button decimal">.</button>
+                        <button class="button equals">=</button>
+                    </div>
+                </div>
             </div>
 
-            <div class="button-row">
-                <button class="button digit">7</button>
-                <button class="button digit">8</button>
-                <button class="button digit">9</button>
-                <button class="button operator multiply">*</button>
-            </div>
-
-            <div class="button-row">
-                <button class="button digit">4</button>
-                <button class="button digit">5</button>
-                <button class="button digit">6</button>
-                <button class="button operator subtract">-</button>
-            </div>
-
-            <div class="button-row">
-                <button class="button digit">1</button>
-                <button class="button digit">2</button>
-                <button class="button digit">3</button>
-                <button class="button operator add">+</button>
-            </div>
-
-            <div class="button-row last-row">
-                <button class="button sign-change">+/-</button>
-                <button class="button digit zero-button">0</button>
-                <button class="button decimal">.</button>
-                <button class="button equals">=</button>
+            <div class="calculation-history-panel">
+                <h3 class="history-panel-title">History</h3>
+                <div id="historyEntries" class="history-entries">
+                    </div>
+                <button id="clearHistoryBtn" class="button clear-history-button">Clear History</button>
             </div>
         </div>
     </div>
 
-    <script src="./script.js"></script>
+    <footer>
+        Made with ❤️ by <a href="https://github.com/bit2swaz" target="_blank" noreferrer noopener>bit2swaz</a>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
