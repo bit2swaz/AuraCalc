@@ -14,6 +14,27 @@ function updateDisplay() {
 updateDisplay();
 historyDisplay.textContent = '';
 
+buttons.forEach(button => {
+    button.addEventListener('click', () => {
+        const buttonText = button.textContent;
+        console.log(`Button clicked: ${buttonText}`);
+
+        if (button.classList.contains('digit') || button.classList.contains('decimal')) {
+            handleDigitClick(buttonText);
+        }
+        else if (button.classList.contains('operator')) {
+            console.log(`Operator clicked: ${buttonText}`);
+        } else if (button.classList.contains('equals')) {
+            console.log(`Equals clicked`);
+        } else if (button.classList.contains('clear')) {
+            console.log(`Clear clicked`);
+        } else if (button.classList.contains('backspace')) {
+            console.log(`Backspace clicked`);
+        }
+        updateDisplay();
+    })
+})
+
 const add = (a, b) => a + b;
 const subtract = (a, b) => a - b;
 const multiply = (a, b) => a * b;
