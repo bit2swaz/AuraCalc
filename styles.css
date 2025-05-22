@@ -84,3 +84,10 @@ body {
 .button-operator:hover {
     background-color: #999999;
 }
+
+.button.clear ,
+.button.backspace ,
+.button.percent {
+    background-color: #b0b0b0;
+    color: #3a3a3a;
+}
