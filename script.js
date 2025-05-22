@@ -39,10 +39,10 @@ buttons.forEach(button => {
 });
 
 function handleDigitClick(digit) {
-    
     if (waitingForSecondOperand) {
         currentDisplayValue = digit; 
         waitingForSecondOperand = false;
+        historyDisplay.textContent = '';
     } else {
         if (currentDisplayValue === '0' && digit !== '.') {
             currentDisplayValue = digit;
