@@ -6,9 +6,26 @@ let waitingForSecondOperand = false;
 const mainDisplay = document.querySelector('.main-display');
 const historyDisplay = document.querySelector('.history-display');
 const buttons = document.querySelectorAll('.button');
+const operatorButtons = document.querySelectorAll('.button.operator');
 
 function updateDisplay() {
+    if (currentDisplayValue.length > 12 && currentDisplayValue !== 'ERROR: Div/0!') {
+        if (currentDisplayValue.includes('.')) {
+            currentDisplayValue = parseFloat(currentDisplayValue).toFixed(8).toString();
+            if (currentDisplayValue.length > 12) {
+                currentDisplayValue = parseFloat(currentDisplayValue).toPrecision(5).toString();
+            }
+        } else {
+            currentDisplayValue = parseFloat(currentDisplayValue).toPrecision(5).toString();
+        }
+    }
     mainDisplay.textContent = currentDisplayValue;
+}
+
+function removeOperatorActiveClass() {
+    operatorButtons.forEach(btn => {
+        btn.classList.remove('active');
+    });
 }
 
 updateDisplay();
@@ -42,6 +59,8 @@ buttons.forEach(button => {
     });
 });
 
+window.addEventListener('keydown', handleKeyboardInput);
+
 function handleDigitClick(digit) {
     if (waitingForSecondOperand) {
         currentDisplayValue = digit;
@@ -70,6 +89,14 @@ function handleOperatorClick(nextOperator) {
         operator = nextOperator;
         historyDisplay.textContent = `${firstOperand} ${operator}`;
         updateDisplay();
+        removeOperatorActiveClass();
+        buttons.forEach(button => {
+            if (button.classList.contains('operator') && button.textContent === nextOperator) {
+                button.classList.add('active');
+            } else if (button.classList.contains('operator') && button.classList.contains('percent') && nextOperator === '%') {
+                 button.classList.add('active');
+            }
+        });
         return;
     }
     else if (operator) {
@@ -82,6 +109,7 @@ function handleOperatorClick(nextOperator) {
             waitingForSecondOperand = false;
             historyDisplay.textContent = '';
             updateDisplay();
+            removeOperatorActiveClass();
             return;
         }
 
@@ -93,11 +121,19 @@ function handleOperatorClick(nextOperator) {
     waitingForSecondOperand = true;
     historyDisplay.textContent = `${firstOperand} ${operator}`;
     updateDisplay();
+
+    removeOperatorActiveClass();
+    buttons.forEach(button => {
+        if (button.classList.contains('operator') && button.textContent === nextOperator) {
+            button.classList.add('active');
+        } else if (button.classList.contains('operator') && button.classList.contains('percent') && nextOperator === '%') {
+             button.classList.add('active');
+        }
+    });
 }
 
 function handleEqualsClick() {
     if (firstOperand === null || operator === null || waitingForSecondOperand) {
-        console.log("Cannot evaluate: Incomplete expression or waiting for second operand.");
         return;
     }
 
@@ -111,6 +147,7 @@ function handleEqualsClick() {
         waitingForSecondOperand = false;
         historyDisplay.textContent = '';
         updateDisplay();
+        removeOperatorActiveClass();
         return;
     }
 
@@ -120,6 +157,8 @@ function handleEqualsClick() {
     firstOperand = result;
     operator = null;
     waitingForSecondOperand = true;
+
+    removeOperatorActiveClass();
 }
 
 function handleClearClick() {
@@ -128,12 +167,14 @@ function handleClearClick() {
     operator = null;
     waitingForSecondOperand = false;
     historyDisplay.textContent = '';
+    removeOperatorActiveClass();
 }
 
 function handleBackspaceClick() {
     if (waitingForSecondOperand || currentDisplayValue === 'ERROR: Div/0!') {
         return;
     }
+
     if (currentDisplayValue.length > 1) {
         currentDisplayValue = currentDisplayValue.slice(0, -1);
     } else {
@@ -147,21 +188,25 @@ function handleKeyboardInput(e) {
     }
     else if (e.key === '.') {
         handleDigitClick(e.key);
-    } else if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/') {
+    }
+    else if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/') {
         handleOperatorClick(e.key);
-    } else if (e.key === 'Enter' || e.key === '=') {
-        e.preventDefault(); 
+    }
+    else if (e.key === 'Enter' || e.key === '=') {
+        e.preventDefault();
         handleEqualsClick();
-    } else if (e.key === 'Backspace') {
+    }
+    else if (e.key === 'Backspace') {
         handleBackspaceClick();
-    } else if (e.key === 'Escape') {
+    }
+    else if (e.key === 'Escape') {
         handleClearClick();
-    } else if (e.key === '%') {
+    }
+    else if (e.key === '%') {
         handleOperatorClick(e.key);
     }
     updateDisplay();
 }
-window.addEventListener('keydown', handleKeyboardInput);
 
 const add = (a, b) => a + b;
 const subtract = (a, b) => a - b;
@@ -190,6 +235,10 @@ const operate = (op, num1, num2) => {
     }
 
     const roundedResult = parseFloat(result.toFixed(8));
+
+    if (Math.abs(roundedResult) > 999999999999 || (Math.abs(roundedResult) < 0.000000001 && roundedResult !== 0)) {
+        return roundedResult.toExponential(5);
+    }
 
     return roundedResult;
 };
