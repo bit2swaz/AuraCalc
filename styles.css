@@ -48,12 +48,10 @@ body {
     box-sizing: border-box;
     font-family: 'Roboto Mono', monospace;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
     min-height: 100vh;
     background-color: var(--body-bg);
     transition: background-color 0.3s ease;
-    flex-direction: column;
 }
 
 .page-wrapper {
@@ -62,12 +60,14 @@ body {
     align-items: center;
     max-width: 400px;
     width: 100%;
-    margin: 20px;
+    margin: 20px auto;
     padding: 0;
     box-shadow: 0 10px 30px var(--shadow-color);
     border-radius: 12px;
     background-color: var(--page-wrapper-bg);
     transition: box-shadow 0.3s ease, background-color 0.3s ease;
+    flex-grow: 1;
+    justify-content: center;
 }
 
 .mode-toggle {
@@ -232,7 +232,7 @@ body.light-mode .button.operator.active {
 }
 
 footer {
-    margin-top: 40px;
+    margin-top: auto;
     padding: 20px;
     background-color: var(--calculator-body-bg);
     color: var(--text-color);
