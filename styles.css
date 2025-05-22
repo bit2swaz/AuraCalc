@@ -9,3 +9,14 @@ body {
     min-width: 100vh;
     background-color: #f0f0f0;
 }
+
+.calculator-body {
+    background: #3a3a3a;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    padding: 20px;
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
