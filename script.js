@@ -16,18 +16,21 @@ historyDisplay.textContent = '';
 
 buttons.forEach(button => {
     button.addEventListener('click', () => {
-        const buttonText = button.textContent;
-        console.log(`Button clicked: ${buttonText}`);
+        const buttonText = button.textContent; 
+        console.log(`Button clicked: ${buttonText}`); 
 
         if (button.classList.contains('digit') || button.classList.contains('decimal')) {
             handleDigitClick(buttonText);
         }
         else if (button.classList.contains('operator')) {
             console.log(`Operator clicked: ${buttonText}`);
+
         } else if (button.classList.contains('equals')) {
             console.log(`Equals clicked`);
+
         } else if (button.classList.contains('clear')) {
             console.log(`Clear clicked`);
+
         } else if (button.classList.contains('backspace')) {
             console.log(`Backspace clicked`);
         }
@@ -36,11 +39,12 @@ buttons.forEach(button => {
 });
 
 function handleDigitClick(digit) {
+    
     if (waitingForSecondOperand) {
-        currentDisplayValue = digit;
+        currentDisplayValue = digit; 
         waitingForSecondOperand = false;
     } else {
-        if (currentDisplayValue === 0 && digit !== '.') {
+        if (currentDisplayValue === '0' && digit !== '.') {
             currentDisplayValue = digit;
         } else if (digit === '.') {
             if (!currentDisplayValue.includes('.')) {
@@ -64,11 +68,20 @@ const operate = (op, num1, num2) => {
     num1 = Number(num1);
     num2 = Number(num2);
 
-    switch (op) {
-        case '+': return add(num1, num2);
-        case '-': return subtract(num1, num2);
-        case '*': return multiply(num1, num2);
-        case '/': return divide(num1, num2);
-        default: return null;
+    const result = (function() {
+        switch (op) {
+            case '+': return add(num1, num2);
+            case '-': return subtract(num1, num2);
+            case '*': return multiply(num1, num2);
+            case '/': return divide(num1, num2);
+            default: return null;
+        }
+    })();
+
+    if (result === "ERROR: Div/0!") {
+        return result;
     }
+
+    const roundedResult = parseFloat(result.toFixed(8));
+    return roundedResult;
 };
