@@ -105,3 +105,7 @@ body {
 .button.equals:hover {
     background-color: #38a2e5;
 }
+
+.zero-button {
+    flex-grow: 2;
+}
