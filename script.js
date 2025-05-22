@@ -4,24 +4,27 @@ let operator = null;
 let waitingForSecondOperand = false;
 let lastSecondOperand = null;
 let lastOperatorUsed = null;
+
 const mainDisplay = document.querySelector('.main-display');
 const historyDisplay = document.querySelector('.history-display');
 const buttons = document.querySelectorAll('.button');
 const operatorButtons = document.querySelectorAll('.button.operator');
 const decimalButton = document.querySelector('.button.decimal');
+const initialMainDisplayFontSize = 2.8;
 
 function updateDisplay() {
-    if (currentDisplayValue.length > 12 && currentDisplayValue !== 'ERROR: Div/0!') {
-        if (currentDisplayValue.includes('.')) {
-            currentDisplayValue = parseFloat(currentDisplayValue).toFixed(8).toString();
-            if (currentDisplayValue.length > 12) {
-                currentDisplayValue = parseFloat(currentDisplayValue).toPrecision(5).toString();
-            }
-        } else {
-            currentDisplayValue = parseFloat(currentDisplayValue).toPrecision(5).toString();
+    mainDisplay.style.fontSize = `${initialMainDisplayFontSize}em`;
+    mainDisplay.textContent = currentDisplayValue;
+
+    if (currentDisplayValue !== 'ERROR: Div/0!') {
+        let currentFontSize = initialMainDisplayFontSize;
+        const displayWidth = mainDisplay.clientWidth;
+
+        while (mainDisplay.scrollWidth > displayWidth && currentFontSize > 1.0) {
+            currentFontSize -= 0.1;
+            mainDisplay.style.fontSize = `${currentFontSize}em`;
         }
     }
-    mainDisplay.textContent = currentDisplayValue;
 
     if (currentDisplayValue.includes('.')) {
         decimalButton.disabled = true;
@@ -92,6 +95,7 @@ function handleDigitClick(digit) {
 
 function handleOperatorClick(nextOperator) {
     const inputValue = Number(currentDisplayValue);
+
     if (waitingForSecondOperand && firstOperand !== null && operator === null) {
         operator = nextOperator;
         historyDisplay.textContent = `${firstOperand} ${operator}`;
