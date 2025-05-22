@@ -1,9 +1,8 @@
 :root {
-    /* Dark Mode (Default) */
-    --body-bg: #1a1a1a; 
-    --main-container-bg: #1a1a1a;
-    --calculator-body-bg: #222222; 
-    --display-bg: #0d0d0d; 
+    --body-bg: #1a1a1a;
+    --page-wrapper-bg: transparent;
+    --calculator-body-bg: #222222;
+    --display-bg: #0d0d0d;
     --text-color: #ffffff;
     --history-text-color: #bbbbbb;
 
@@ -11,28 +10,19 @@
     --digit-button-hover-bg: #555555;
     --operator-button-bg: #666666;
     --operator-button-hover-bg: #777777;
-    --utility-button-bg: #888888; 
+    --utility-button-bg: #888888;
     --utility-button-hover-bg: #999999;
-    --utility-button-text-color: #1a1a1a; 
+    --utility-button-text-color: #1a1a1a;
+
     --equals-button-bg: #e0b300;
     --equals-button-hover-bg: #ffc900;
 
-    --history-panel-bg: #111111;
-    --history-panel-text-color: #eeeeee;
-    --history-panel-title-color: #e0b300; 
-    --history-entry-color: #aaaaaa;
-    --history-entry-equals-color: #ffffff; 
-    --clear-history-button-bg: #888888;
-    --clear-history-button-hover-bg: #999999;
-    --clear-history-button-text-color: #1a1a1a;
-
-    --shadow-color: rgba(0, 0, 0, 0.5); 
+    --shadow-color: rgba(0, 0, 0, 0.5);
 }
 
-/* Light Mode */
 body.light-mode {
     --body-bg: #f0f0f0;
-    --main-container-bg: #f0f0f0;
+    --page-wrapper-bg: transparent;
     --calculator-body-bg: #ffffff;
     --display-bg: #e0e0e0;
     --text-color: #333333;
@@ -46,17 +36,8 @@ body.light-mode {
     --utility-button-hover-bg: #909090;
     --utility-button-text-color: #333333;
 
-    --equals-button-bg: #2c93d9; 
+    --equals-button-bg: #2c93d9;
     --equals-button-hover-bg: #38a2e5;
-
-    --history-panel-bg: #e5e5e5;
-    --history-panel-text-color: #555555;
-    --history-panel-title-color: #2c93d9;
-    --history-entry-color: #777777;
-    --history-entry-equals-color: #333333;
-    --clear-history-button-bg: #a0a0a0;
-    --clear-history-button-hover-bg: #909090;
-    --clear-history-button-text-color: #333333;
 
     --shadow-color: rgba(0, 0, 0, 0.2);
 }
@@ -71,28 +52,27 @@ body {
     align-items: center;
     min-height: 100vh;
     background-color: var(--body-bg);
-    transition: background-color 0.3s ease; 
+    transition: background-color 0.3s ease;
     flex-direction: column;
 }
 
-.main-container {
+.page-wrapper {
     display: flex;
-    gap: 20px; 
-    align-items: flex-start;
-    background-color: var(--main-container-bg);
-    border-radius: 12px;
-    box-shadow: 0 10px 30px var(--shadow-color);
-    padding: 20px;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    max-width: 900px;
+    flex-direction: column;
+    align-items: center;
+    max-width: 400px;
     width: 100%;
     margin: 20px;
+    padding: 0;
+    box-shadow: 0 10px 30px var(--shadow-color);
+    border-radius: 12px;
+    background-color: var(--page-wrapper-bg);
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
 .mode-toggle {
-    position: absolute;
-    top: 20px;
-    right: 20px;
+    align-self: flex-end;
+    margin-bottom: 10px;
     z-index: 10;
 }
 
@@ -110,14 +90,6 @@ body {
     background-color: var(--utility-button-hover-bg);
 }
 
-
-.calculator-wrapper {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    gap: 20px; 
-}
-
 .calculator-body {
     background-color: var(--calculator-body-bg);
     border-radius: 12px;
@@ -127,6 +99,8 @@ body {
     flex-direction: column;
     gap: 15px;
     transition: background-color 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .display-container {
@@ -257,106 +231,25 @@ body.light-mode .button.operator.active {
     color: #ffffff;
 }
 
-
-/* --- History Panel Styling --- */
-.calculation-history-panel {
-    background-color: var(--history-panel-bg);
-    border-radius: 12px;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    width: 250px;
-    min-height: 480px;
-    box-shadow: inset 0 0 10px var(--shadow-color);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.history-panel-title {
-    color: var(--history-panel-title-color);
-    font-size: 1.5em;
-    margin-top: 0;
-    margin-bottom: 15px;
-    text-align: center;
-    transition: color 0.3s ease;
-}
-
-.history-entries {
-    flex-grow: 1;
-    overflow-y: auto;
-    padding-right: 10px;
-    margin-bottom: 15px;
-    color: var(--history-panel-text-color);
-    font-size: 0.9em;
-    line-height: 1.5;
-    transition: color 0.3s ease;
-    scrollbar-width: thin; /* Firefox */
-    scrollbar-color: var(--utility-button-bg) var(--history-panel-bg);
-}
-
-/* Webkit (Chrome, Safari) scrollbar styling */
-.history-entries::-webkit-scrollbar {
-    width: 8px;
-}
-
-.history-entries::-webkit-scrollbar-track {
-    background: var(--history-panel-bg);
-    border-radius: 10px;
-}
-
-.history-entries::-webkit-scrollbar-thumb {
-    background-color: var(--utility-button-bg);
-    border-radius: 10px;
-    border: 2px solid var(--history-panel-bg);
-}
-
-.history-entry {
-    margin-bottom: 8px;
-    padding: 5px;
-    border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
-    word-wrap: break-word;
-    white-space: pre-wrap;
-}
-body.light-mode .history-entry {
-    border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
-}
-
-.history-entry strong {
-    color: var(--history-entry-equals-color);
-    font-weight: normal;
-}
-
-
-.clear-history-button {
-    width: 100%;
-    height: 50px;
-    background-color: var(--clear-history-button-bg);
-    color: var(--clear-history-button-text-color);
-    font-size: 1.2em;
-    margin-top: auto;
-}
-.clear-history-button:hover {
-    background-color: var(--clear-history-button-hover-bg);
-}
-
-
-/* --- Footer Styling --- */
 footer {
-    margin-top: 20px;
+    margin-top: 40px;
+    padding: 20px;
+    background-color: var(--calculator-body-bg);
     color: var(--text-color);
-    font-size: 0.9em;
+    font-size: 1.1em;
     text-align: center;
-    transition: color 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 footer a {
     color: var(--equals-button-bg);
     text-decoration: none;
+    font-weight: bold;
     transition: color 0.3s ease;
 }
 
 footer a:hover {
     text-decoration: underline;
-}
-body.light-mode footer a {
-    color: var(--equals-button-bg);
 }
