@@ -95,14 +95,16 @@ body {
 
 .button.clear,
 .button.backspace,
-.button.percent {
+.button.percent,
+.button.sign-change {
     background-color: #b0b0b0;
     color: #3a3a3a;
 }
 
 .button.clear:hover,
 .button.backspace:hover,
-.button.percent:hover {
+.button.percent:hover,
+.button.sign-change:hover {
     background-color: #c0c0c0;
 }
 
