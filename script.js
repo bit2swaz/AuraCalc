@@ -23,3 +23,16 @@ const divide = (a,b) => {
     if (b === 0) return 'ERROR: Div/0!';
     return a / b;
 };
+
+const operate = (op, num1, num2) => {
+    num1 = Number(num1);
+    num2 = Number(num2);
+
+    switch(op) {
+        case '+': return add(num1, num2);
+        case '-': return subtract(num1, num2);
+        case '*': return multiply(num1, num2);
+        case '/': return divide(num1, num2);
+        default: return null;
+    }
+};
