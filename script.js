@@ -122,7 +122,13 @@ function handleEqualsClick() {
     waitingForSecondOperand = true;
 }
 
-
+function handleClearClick() {
+    currentDisplayValue = '0';
+    firstOperand = null;
+    operator = null;
+    waitingForSecondOperand = false;
+    historyDisplay.textContent = '';
+}
 
 const add = (a, b) => a + b;
 const subtract = (a, b) => a - b;
