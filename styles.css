@@ -80,3 +80,7 @@ body {
 .button-operator {
     background-color: #888888;
 }
+
+.button-operator:hover {
+    background-color: #999999;
+}
