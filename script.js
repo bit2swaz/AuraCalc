@@ -29,7 +29,7 @@ buttons.forEach(button => {
             handleOperatorClick(opSymbol);
         }
         else if (button.classList.contains('equals')) {
-            console.log(`Equals clicked`);
+            handleEqualsClick();
         }
         else if (button.classList.contains('clear')) {
             console.log(`Clear clicked`);
@@ -94,6 +94,8 @@ function handleOperatorClick(nextOperator) {
     historyDisplay.textContent = `${firstOperand} ${operator}`;
     updateDisplay();
 }
+
+
 
 const add = (a, b) => a + b;
 const subtract = (a, b) => a - b;
