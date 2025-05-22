@@ -35,7 +35,22 @@ buttons.forEach(button => {
     });
 });
 
-
+function handleDigitClick(digit) {
+    if (waitingForSecondOperand) {
+        currentDisplayValue = digit;
+        waitingForSecondOperand = false;
+    } else {
+        if (currentDisplayValue === 0 && digit !== '.') {
+            currentDisplayValue = digit;
+        } else if (digit === '.') {
+            if (!currentDisplayValue.includes('.')) {
+                currentDisplayValue += digit;
+            }
+        } else {
+            currentDisplayValue += digit;
+        }
+    }
+}
 
 const add = (a, b) => a + b;
 const subtract = (a, b) => a - b;
