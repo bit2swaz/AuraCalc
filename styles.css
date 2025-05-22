@@ -1,3 +1,66 @@
+:root {
+    /* Dark Mode (Default) */
+    --body-bg: #1a1a1a; 
+    --main-container-bg: #1a1a1a;
+    --calculator-body-bg: #222222; 
+    --display-bg: #0d0d0d; 
+    --text-color: #ffffff;
+    --history-text-color: #bbbbbb;
+
+    --digit-button-bg: #444444;
+    --digit-button-hover-bg: #555555;
+    --operator-button-bg: #666666;
+    --operator-button-hover-bg: #777777;
+    --utility-button-bg: #888888; 
+    --utility-button-hover-bg: #999999;
+    --utility-button-text-color: #1a1a1a; 
+    --equals-button-bg: #e0b300;
+    --equals-button-hover-bg: #ffc900;
+
+    --history-panel-bg: #111111;
+    --history-panel-text-color: #eeeeee;
+    --history-panel-title-color: #e0b300; 
+    --history-entry-color: #aaaaaa;
+    --history-entry-equals-color: #ffffff; 
+    --clear-history-button-bg: #888888;
+    --clear-history-button-hover-bg: #999999;
+    --clear-history-button-text-color: #1a1a1a;
+
+    --shadow-color: rgba(0, 0, 0, 0.5); 
+}
+
+/* Light Mode */
+body.light-mode {
+    --body-bg: #f0f0f0;
+    --main-container-bg: #f0f0f0;
+    --calculator-body-bg: #ffffff;
+    --display-bg: #e0e0e0;
+    --text-color: #333333;
+    --history-text-color: #666666;
+
+    --digit-button-bg: #e0e0e0;
+    --digit-button-hover-bg: #d0d0d0;
+    --operator-button-bg: #c0c0c0;
+    --operator-button-hover-bg: #b0b0b0;
+    --utility-button-bg: #a0a0a0;
+    --utility-button-hover-bg: #909090;
+    --utility-button-text-color: #333333;
+
+    --equals-button-bg: #2c93d9; 
+    --equals-button-hover-bg: #38a2e5;
+
+    --history-panel-bg: #e5e5e5;
+    --history-panel-text-color: #555555;
+    --history-panel-title-color: #2c93d9;
+    --history-entry-color: #777777;
+    --history-entry-equals-color: #333333;
+    --clear-history-button-bg: #a0a0a0;
+    --clear-history-button-hover-bg: #909090;
+    --clear-history-button-text-color: #333333;
+
+    --shadow-color: rgba(0, 0, 0, 0.2);
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -7,34 +70,84 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f0f0f0;
+    background-color: var(--body-bg);
+    transition: background-color 0.3s ease; 
+    flex-direction: column;
+}
+
+.main-container {
+    display: flex;
+    gap: 20px; 
+    align-items: flex-start;
+    background-color: var(--main-container-bg);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px var(--shadow-color);
+    padding: 20px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    max-width: 900px;
+    width: 100%;
+    margin: 20px;
+}
+
+.mode-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+}
+
+.mode-toggle .button {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5em;
+    background-color: var(--utility-button-bg);
+    color: var(--utility-button-text-color);
+    border-radius: 50%;
+    box-shadow: 0 2px 5px var(--shadow-color);
+}
+
+.mode-toggle .button:hover {
+    background-color: var(--utility-button-hover-bg);
+}
+
+
+.calculator-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 20px; 
 }
 
 .calculator-body {
-    background-color: #3a3a3a;
+    background-color: var(--calculator-body-bg);
     border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     padding: 20px;
-    width: 320px;
+    min-width: 320px;
     display: flex;
     flex-direction: column;
     gap: 15px;
+    transition: background-color 0.3s ease;
 }
 
 .display-container {
-    background-color: #2a2a2a;
+    background-color: var(--display-bg);
     border-radius: 8px;
     padding: 15px;
     text-align: right;
-    color: #ffffff;
+    color: var(--text-color);
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .history-display {
     font-size: 1.2em;
-    color: #a0a0a0;
+    color: var(--history-text-color);
     min-height: 1.2em;
     margin-bottom: 5px;
+    transition: color 0.3s ease;
 }
 
 .main-display {
@@ -49,6 +162,7 @@ body {
     align-items: flex-end;
     justify-content: flex-end;
     line-height: 1;
+    transition: color 0.3s ease;
 }
 
 .buttons-container {
@@ -72,52 +186,57 @@ body {
     font-size: 1.8em;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
+    transition: background-color 0.2s ease, transform 0.1s ease, color 0.3s ease;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #ffffff;
+    color: var(--text-color);
 }
 
 .button.digit,
 .button.decimal {
-    background-color: #6a6a6a;
+    background-color: var(--digit-button-bg);
 }
 
 .button.digit:hover,
 .button.decimal:hover {
-    background-color: #7a7a7a;
+    background-color: var(--digit-button-hover-bg);
 }
 
 .button.operator {
-    background-color: #888888;
+    background-color: var(--operator-button-bg);
 }
 
 .button.operator:hover {
-    background-color: #999999;
+    background-color: var(--operator-button-hover-bg);
 }
 
 .button.clear,
 .button.backspace,
 .button.percent,
 .button.sign-change {
-    background-color: #b0b0b0;
-    color: #3a3a3a;
+    background-color: var(--utility-button-bg);
+    color: var(--utility-button-text-color);
 }
 
 .button.clear:hover,
 .button.backspace:hover,
 .button.percent:hover,
 .button.sign-change:hover {
-    background-color: #c0c0c0;
+    background-color: var(--utility-button-hover-bg);
 }
 
 .button.equals {
-    background-color: #2c93d9;
+    background-color: var(--equals-button-bg);
+    color: #1a1a1a;
+}
+
+body.light-mode .button.equals {
+    color: #ffffff;
 }
 
 .button.equals:hover {
-    background-color: #38a2e5;
+    background-color: var(--equals-button-hover-bg);
 }
 
 .zero-button {
@@ -130,7 +249,114 @@ body {
 }
 
 .button.operator.active {
-    background-color: #2c93d9;
+    background-color: var(--equals-button-bg);
+    color: var(--equals-button-text-color);
+    box-shadow: inset 0 0 8px var(--shadow-color);
+}
+body.light-mode .button.operator.active {
     color: #ffffff;
-    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.4);
+}
+
+
+/* --- History Panel Styling --- */
+.calculation-history-panel {
+    background-color: var(--history-panel-bg);
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    min-height: 480px;
+    box-shadow: inset 0 0 10px var(--shadow-color);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.history-panel-title {
+    color: var(--history-panel-title-color);
+    font-size: 1.5em;
+    margin-top: 0;
+    margin-bottom: 15px;
+    text-align: center;
+    transition: color 0.3s ease;
+}
+
+.history-entries {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-right: 10px;
+    margin-bottom: 15px;
+    color: var(--history-panel-text-color);
+    font-size: 0.9em;
+    line-height: 1.5;
+    transition: color 0.3s ease;
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: var(--utility-button-bg) var(--history-panel-bg);
+}
+
+/* Webkit (Chrome, Safari) scrollbar styling */
+.history-entries::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-entries::-webkit-scrollbar-track {
+    background: var(--history-panel-bg);
+    border-radius: 10px;
+}
+
+.history-entries::-webkit-scrollbar-thumb {
+    background-color: var(--utility-button-bg);
+    border-radius: 10px;
+    border: 2px solid var(--history-panel-bg);
+}
+
+.history-entry {
+    margin-bottom: 8px;
+    padding: 5px;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+body.light-mode .history-entry {
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+}
+
+.history-entry strong {
+    color: var(--history-entry-equals-color);
+    font-weight: normal;
+}
+
+
+.clear-history-button {
+    width: 100%;
+    height: 50px;
+    background-color: var(--clear-history-button-bg);
+    color: var(--clear-history-button-text-color);
+    font-size: 1.2em;
+    margin-top: auto;
+}
+.clear-history-button:hover {
+    background-color: var(--clear-history-button-hover-bg);
+}
+
+
+/* --- Footer Styling --- */
+footer {
+    margin-top: 20px;
+    color: var(--text-color);
+    font-size: 0.9em;
+    text-align: center;
+    transition: color 0.3s ease;
+}
+
+footer a {
+    color: var(--equals-button-bg);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+body.light-mode footer a {
+    color: var(--equals-button-bg);
 }
