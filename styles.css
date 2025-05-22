@@ -1,71 +1,66 @@
-/* Basic Resets & Body Styling */
 body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Roboto Mono', monospace; /* Good for calculator displays */
+    font-family: 'Roboto Mono', monospace;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* Full viewport height */
-    background-color: #f0f0f0; /* Light background for the page */
+    min-height: 100vh;
+    background-color: #f0f0f0;
 }
 
-/* Calculator Body Styling */
 .calculator-body {
-    background-color: #3a3a3a; /* Dark background for the calculator itself */
+    background-color: #3a3a3a;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     padding: 20px;
-    width: 320px; /* Fixed width, adjust as needed */
+    width: 320px;
     display: flex;
-    flex-direction: column; /* Stack display and buttons vertically */
-    gap: 15px; /* Space between display and button container */
+    flex-direction: column; 
+    gap: 15px;
 }
 
-/* Display Container */
+
 .display-container {
-    background-color: #2a2a2a; /* Even darker for display */
+    background-color: #2a2a2a;
     border-radius: 8px;
     padding: 15px;
     text-align: right;
     color: #ffffff;
-    overflow: hidden; /* Hide overflow for scaling text later */
+    overflow: hidden;
 }
 
 .history-display {
     font-size: 1.2em;
-    color: #a0a0a0; /* Lighter color for history */
-    min-height: 1.2em; /* Ensure it takes up space even if empty */
+    color: #a0a0a0; 
+    min-height: 1.2em;
     margin-bottom: 5px;
 }
 
 .main-display {
-    font-size: 2.8em; /* Large font for current number */
+    font-size: 2.8em;
     font-weight: 700;
-    min-height: 1.5em; /* Ensure it takes up space */
-    word-wrap: break-word; /* Break long numbers */
+    min-height: 1.5em; 
+    word-wrap: break-word; 
     white-space: normal;
 }
 
-/* Buttons Container */
 .buttons-container {
     display: flex;
-    flex-direction: column; /* Stack button rows vertically */
-    gap: 10px; /* Space between button rows */
+    flex-direction: column; 
+    gap: 10px; 
 }
 
-/* Button Row Styling */
 .button-row {
     display: flex;
-    justify-content: space-between; /* Distribute buttons evenly */
-    gap: 10px; /* Space between buttons within a row */
+    justify-content: space-between;
+    gap: 10px;
 }
 
-/* Individual Button Styling */
 .button {
-    flex: 1; /* Allow buttons to grow and shrink within their row */
-    width: 65px; /* Base width for buttons, will be adjusted by flex:1 */
+    flex: 1;
+    width: 65px;
     height: 65px;
     border: none;
     border-radius: 8px;
@@ -73,16 +68,15 @@ body {
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.1s ease;
-    display: flex; /* Use flex to center text vertically/horizontally */
+    display: flex; 
     justify-content: center;
     align-items: center;
-    color: #ffffff; /* Default text color */
+    color: #ffffff;
 }
 
-/* Specific Button Colors (Mimicking MS Calc) */
 .button.digit,
 .button.decimal {
-    background-color: #6a6a6a; /* Darker grey for numbers */
+    background-color: #6a6a6a;
 }
 
 .button.digit:hover,
@@ -91,7 +85,7 @@ body {
 }
 
 .button.operator {
-    background-color: #888888; /* Lighter grey for operators */
+    background-color: #888888; 
 }
 
 .button.operator:hover {
@@ -101,8 +95,8 @@ body {
 .button.clear,
 .button.backspace,
 .button.percent {
-    background-color: #b0b0b0; /* Lightest grey for special functions */
-    color: #3a3a3a; /* Dark text for these light buttons */
+    background-color: #b0b0b0;
+    color: #3a3a3a; 
 }
 
 .button.clear:hover,
@@ -112,52 +106,19 @@ body {
 }
 
 .button.equals {
-    background-color: #2c93d9; /* Distinct blue for equals */
+    background-color: #2c93d9;
 }
 
 .button.equals:hover {
     background-color: #38a2e5;
 }
 
-/* Special Styling for the '0' Button (Spanning two columns with Flexbox) */
-.zero-button {
-    flex-grow: 2; /* Make it take up twice the space */
-    /* If you have a specific button width (e.g., 65px) and gap (10px): */
-    /* width: calc(2 * 65px + 10px); */ /* This might be needed depending on flex settings */
-}
-/* Ensure the zero-button maintains its aspect ratio as it grows, or control its width precisely */
-/* For `flex-grow: 2`, it will take up double the "extra space" in the row.
-   If you want it to be *exactly* twice the width of a normal button plus a gap,
-   you might need more precise width calculations or a simpler row setup.
-   For now, `flex-grow: 2` is the standard Flexbox way to make it wider. */
 
-/* Active (Pressed) State */
+.zero-button {
+    flex-grow: 2; 
+}
+
 .button:active {
     transform: translateY(1px);
     box-shadow: none;
-}
-
-/* Basic Responsiveness (Optional for now, but good to keep in mind) */
-@media (max-width: 400px) {
-    .calculator-body {
-        width: 90%; /* Make calculator body take up more width on small screens */
-        padding: 15px;
-        gap: 10px;
-    }
-    .button {
-        height: 55px; /* Slightly smaller buttons on small screens */
-        font-size: 1.5em;
-    }
-    .button-row {
-        gap: 8px;
-    }
-    .display-container {
-        padding: 10px;
-    }
-    .main-display {
-        font-size: 2.2em;
-    }
-    .history-display {
-        font-size: 1em;
-    }
 }
