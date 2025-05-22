@@ -17,10 +17,9 @@ body {
     padding: 20px;
     width: 320px;
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     gap: 15px;
 }
-
 
 .display-container {
     background-color: #2a2a2a;
@@ -33,7 +32,7 @@ body {
 
 .history-display {
     font-size: 1.2em;
-    color: #a0a0a0; 
+    color: #a0a0a0;
     min-height: 1.2em;
     margin-bottom: 5px;
 }
@@ -41,15 +40,17 @@ body {
 .main-display {
     font-size: 2.8em;
     font-weight: 700;
-    min-height: 1.5em; 
-    word-wrap: break-word; 
+    min-height: 1.5em;
+    word-wrap: break-word;
     white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .buttons-container {
     display: flex;
-    flex-direction: column; 
-    gap: 10px; 
+    flex-direction: column;
+    gap: 10px;
 }
 
 .button-row {
@@ -68,7 +69,7 @@ body {
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.1s ease;
-    display: flex; 
+    display: flex;
     justify-content: center;
     align-items: center;
     color: #ffffff;
@@ -85,7 +86,7 @@ body {
 }
 
 .button.operator {
-    background-color: #888888; 
+    background-color: #888888;
 }
 
 .button.operator:hover {
@@ -96,7 +97,7 @@ body {
 .button.backspace,
 .button.percent {
     background-color: #b0b0b0;
-    color: #3a3a3a; 
+    color: #3a3a3a;
 }
 
 .button.clear:hover,
@@ -113,12 +114,41 @@ body {
     background-color: #38a2e5;
 }
 
-
 .zero-button {
-    flex-grow: 2; 
+    flex-grow: 2;
 }
 
 .button:active {
     transform: translateY(1px);
     box-shadow: none;
+}
+
+.button.operator.active {
+    background-color: #2c93d9;
+    color: #ffffff;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.4);
+}
+
+@media (max-width: 400px) {
+    .calculator-body {
+        width: 90%;
+        padding: 15px;
+        gap: 10px;
+    }
+    .button {
+        height: 55px;
+        font-size: 1.5em;
+    }
+    .button-row {
+        gap: 8px;
+    }
+    .display-container {
+        padding: 10px;
+    }
+    .main-display {
+        font-size: 2.2em;
+    }
+    .history-display {
+        font-size: 1em;
+    }
 }
