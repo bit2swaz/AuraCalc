@@ -109,3 +109,8 @@ body {
 .zero-button {
     flex-grow: 2;
 }
+
+.button:active {
+    transform: translateY(1px);
+    box-shadow: none;
+}
