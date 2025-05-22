@@ -47,6 +47,19 @@ historyDisplay.textContent = '';
 
 themeToggleBtn.addEventListener('click', toggleTheme);
 
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+        body.classList.add('light-mode');
+        themeToggleBtn.querySelector('i').classList.remove('fa-moon');
+        themeToggleBtn.querySelector('i').classList.add('fa-sun');
+    } else {
+        body.classList.remove('light-mode');
+        themeToggleBtn.querySelector('i').classList.remove('fa-sun');
+        themeToggleBtn.querySelector('i').classList.add('fa-moon');
+    }
+});
+
 buttons.forEach(button => {
     button.addEventListener('click', () => {
         const buttonText = button.textContent;
@@ -346,8 +359,10 @@ function toggleTheme() {
     if (body.classList.contains('light-mode')) {
         icon.classList.remove('fa-moon');
         icon.classList.add('fa-sun');
+        localStorage.setItem('theme', 'light');
     } else {
         icon.classList.remove('fa-sun');
         icon.classList.add('fa-moon');
+        localStorage.setItem('theme', 'dark');
     }
 }
