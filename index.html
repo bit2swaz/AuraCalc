@@ -3,22 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Microsoft Calculator Clone</title>
-    <link rel="stylesheet" href="./styles.css">
+    <title>Awesome Calculator</title>
+    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <div class="calculator-body">
         <div class="display-container">
-            <div class="history-display"></div> <div class="main-display">0</div>
+            <div class="history-display"></div>
+            <div class="main-display">0</div>
         </div>
 
         <div class="buttons-container">
             <div class="button-row">
                 <button class="button clear">C</button>
                 <button class="button backspace">←</button>
-                <button class="button operator percent">%</button>
+                <button class="button percent">%</button>
                 <button class="button operator divide">/</button>
             </div>
 
@@ -44,12 +45,14 @@
             </div>
 
             <div class="button-row last-row">
-                <button class="button digit zero-button">0</button> <button class="button decimal">.</button>
+                <button class="button sign-change">+/-</button>
+                <button class="button digit zero-button">0</button>
+                <button class="button decimal">.</button>
                 <button class="button equals">=</button>
             </div>
         </div>
     </div>
 
-    <script src="./script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
