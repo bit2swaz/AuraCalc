@@ -7,3 +7,5 @@ const mainDisplay = document.querySelector('.main-display');
 const historyDisplay = document.querySelector('.history-display');
 const buttons = document.querySelector('.button');
 
+mainDisplay.textContent = currentDisplayValue;
+historyDisplay.textContent = '';
