@@ -15,3 +15,11 @@ buttons.forEach(button => {
         console.log(`Button clicked: ${button.textContent}`);
     });
 });
+
+const add = (a,b) => a + b;
+const subtract = (a,b) => a - b;
+const multiply = (a,b) => a * b;
+const divide = (a,b) => {
+    if (b === 0) return 'ERROR: Div/0!';
+    return a / b;
+};
