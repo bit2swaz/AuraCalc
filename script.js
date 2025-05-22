@@ -16,31 +16,35 @@ historyDisplay.textContent = '';
 
 buttons.forEach(button => {
     button.addEventListener('click', () => {
-        const buttonText = button.textContent; 
-        console.log(`Button clicked: ${buttonText}`); 
+        const buttonText = button.textContent;
 
         if (button.classList.contains('digit') || button.classList.contains('decimal')) {
             handleDigitClick(buttonText);
         }
         else if (button.classList.contains('operator')) {
-            console.log(`Operator clicked: ${buttonText}`);
-
-        } else if (button.classList.contains('equals')) {
+            let opSymbol = buttonText;
+            if (button.classList.contains('percent')) {
+                 opSymbol = '%';
+            }
+            handleOperatorClick(opSymbol);
+        }
+        else if (button.classList.contains('equals')) {
             console.log(`Equals clicked`);
-
-        } else if (button.classList.contains('clear')) {
+        }
+        else if (button.classList.contains('clear')) {
             console.log(`Clear clicked`);
-
-        } else if (button.classList.contains('backspace')) {
+        }
+        else if (button.classList.contains('backspace')) {
             console.log(`Backspace clicked`);
         }
+
         updateDisplay();
     });
 });
 
 function handleDigitClick(digit) {
     if (waitingForSecondOperand) {
-        currentDisplayValue = digit; 
+        currentDisplayValue = digit;
         waitingForSecondOperand = false;
         historyDisplay.textContent = '';
     } else {
@@ -54,6 +58,41 @@ function handleDigitClick(digit) {
             currentDisplayValue += digit;
         }
     }
+}
+
+function handleOperatorClick(nextOperator) {
+    const inputValue = Number(currentDisplayValue);
+
+    if (firstOperand === null) {
+        firstOperand = inputValue;
+    }
+    else if (waitingForSecondOperand) {
+        operator = nextOperator;
+        historyDisplay.textContent = `${firstOperand} ${operator}`;
+        updateDisplay();
+        return;
+    }
+    else if (operator) {
+        const result = operate(operator, firstOperand, inputValue);
+
+        if (result === "ERROR: Div/0!") {
+            currentDisplayValue = result;
+            firstOperand = null;
+            operator = null;
+            waitingForSecondOperand = false;
+            historyDisplay.textContent = '';
+            updateDisplay();
+            return;
+        }
+
+        currentDisplayValue = String(result);
+        firstOperand = result;
+    }
+
+    operator = nextOperator;
+    waitingForSecondOperand = true;
+    historyDisplay.textContent = `${firstOperand} ${operator}`;
+    updateDisplay();
 }
 
 const add = (a, b) => a + b;
@@ -83,5 +122,6 @@ const operate = (op, num1, num2) => {
     }
 
     const roundedResult = parseFloat(result.toFixed(8));
+
     return roundedResult;
 };
