@@ -2,6 +2,7 @@ let currentDisplayValue = '0';
 let firstOperand = null;
 let operator = null;
 let waitingForSecondOperand = false;
+let lastSecondOperand = null;
 
 const mainDisplay = document.querySelector('.main-display');
 const historyDisplay = document.querySelector('.history-display');
@@ -92,13 +93,9 @@ function handleDigitClick(digit) {
 function handleOperatorClick(nextOperator) {
     const inputValue = Number(currentDisplayValue);
 
-    if (firstOperand === null) {
-        firstOperand = inputValue;
-    }
-    else if (waitingForSecondOperand) {
+    if (firstOperand !== null && operator !== null && waitingForSecondOperand) {
         operator = nextOperator;
         historyDisplay.textContent = `${firstOperand} ${operator}`;
-        updateDisplay();
         removeOperatorActiveClass();
         buttons.forEach(button => {
             if (button.classList.contains('operator') && button.textContent === nextOperator) {
@@ -107,7 +104,10 @@ function handleOperatorClick(nextOperator) {
         });
         return;
     }
-    else if (operator) {
+
+    if (firstOperand === null) {
+        firstOperand = inputValue;
+    } else if (operator) {
         const result = operate(operator, firstOperand, inputValue);
 
         if (result === "ERROR: Div/0!") {
@@ -116,8 +116,8 @@ function handleOperatorClick(nextOperator) {
             operator = null;
             waitingForSecondOperand = false;
             historyDisplay.textContent = '';
-            updateDisplay();
             removeOperatorActiveClass();
+            updateDisplay();
             return;
         }
 
@@ -128,7 +128,6 @@ function handleOperatorClick(nextOperator) {
     operator = nextOperator;
     waitingForSecondOperand = true;
     historyDisplay.textContent = `${firstOperand} ${operator}`;
-    updateDisplay();
 
     removeOperatorActiveClass();
     buttons.forEach(button => {
@@ -138,13 +137,31 @@ function handleOperatorClick(nextOperator) {
     });
 }
 
+
 function handleEqualsClick() {
-    if (firstOperand === null || operator === null || waitingForSecondOperand) {
+    if (firstOperand === null) {
         return;
     }
 
-    const secondOperand = Number(currentDisplayValue);
-    const result = operate(operator, firstOperand, secondOperand);
+    let currentSecondOperand = Number(currentDisplayValue);
+
+    if (operator === null && waitingForSecondOperand) {
+        if (lastSecondOperand !== null) {
+             const result = operate(operator, firstOperand, lastSecondOperand);
+             currentDisplayValue = String(result);
+             firstOperand = result;
+             historyDisplay.textContent = `${firstOperand} ${operator} ${lastSecondOperand} =`;
+        }
+        return;
+    }
+
+
+    if (waitingForSecondOperand) {
+        currentSecondOperand = firstOperand;
+    }
+
+
+    const result = operate(operator, firstOperand, currentSecondOperand);
 
     if (result === "ERROR: Div/0!") {
         currentDisplayValue = result;
@@ -152,15 +169,16 @@ function handleEqualsClick() {
         operator = null;
         waitingForSecondOperand = false;
         historyDisplay.textContent = '';
-        updateDisplay();
         removeOperatorActiveClass();
+        updateDisplay();
         return;
     }
 
     currentDisplayValue = String(result);
-    historyDisplay.textContent = `${firstOperand} ${operator} ${secondOperand} =`;
+    historyDisplay.textContent = `${firstOperand} ${operator} ${currentSecondOperand} =`;
 
     firstOperand = result;
+    lastSecondOperand = currentSecondOperand;
     operator = null;
     waitingForSecondOperand = true;
 
@@ -172,6 +190,7 @@ function handleClearClick() {
     firstOperand = null;
     operator = null;
     waitingForSecondOperand = false;
+    lastSecondOperand = null;
     historyDisplay.textContent = '';
     removeOperatorActiveClass();
     decimalButton.disabled = false;
@@ -197,20 +216,44 @@ function handleBackspaceClick() {
 function handlePercentClick() {
     let num = Number(currentDisplayValue);
 
-    if (firstOperand !== null && operator !== null && !waitingForSecondOperand) {
-        let percentageValue = firstOperand * (num / 100);
+    if (firstOperand !== null && operator !== null) {
+        let calculatedValue;
+        let displayOperand;
+
         if (operator === '+' || operator === '-') {
-            currentDisplayValue = String(percentageValue);
+            calculatedValue = firstOperand * (num / 100);
+            displayOperand = calculatedValue;
         } else if (operator === '*' || operator === '/') {
+            calculatedValue = num / 100;
+            displayOperand = calculatedValue;
+        } else {
             currentDisplayValue = String(num / 100);
+            historyDisplay.textContent = `${num}% =`;
+            firstOperand = Number(currentDisplayValue);
+            operator = null;
+            waitingForSecondOperand = true;
+            removeOperatorActiveClass();
+            return;
         }
+
+        const result = operate(operator, firstOperand, displayOperand);
+        currentDisplayValue = String(result);
+        historyDisplay.textContent = `${firstOperand} ${operator} ${num}% =`;
+        firstOperand = result;
+        operator = null;
+        lastSecondOperand = displayOperand;
+
     } else {
         currentDisplayValue = String(num / 100);
+        historyDisplay.textContent = `${num}% =`;
+        firstOperand = Number(currentDisplayValue);
+        operator = null;
+        lastSecondOperand = null;
     }
     waitingForSecondOperand = true;
-    historyDisplay.textContent = '';
     removeOperatorActiveClass();
 }
+
 
 function handleSignChangeClick() {
     if (currentDisplayValue === 'ERROR: Div/0!') {
@@ -241,6 +284,9 @@ function handleKeyboardInput(e) {
     }
     else if (e.key === '%') {
         handlePercentClick();
+    }
+    else if (e.key === '_') {
+        handleSignChangeClick();
     }
     updateDisplay();
 }
