@@ -36,3 +36,11 @@ body {
     min-height: 1.2em;
     margin-bottom: 5px;
 }
+
+.main-display {
+    font-size: 2.8em;
+    font-weight: 700;
+    min-height: 1.5em;
+    word-wrap: break-word;
+    white-space: normal;
+}
