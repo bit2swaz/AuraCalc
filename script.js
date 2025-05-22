@@ -3,7 +3,7 @@ let firstOperand = null;
 let operator = null;
 let waitingForSecondOperand = false;
 let lastSecondOperand = null;
-
+let lastOperatorUsed = null;
 const mainDisplay = document.querySelector('.main-display');
 const historyDisplay = document.querySelector('.history-display');
 const buttons = document.querySelectorAll('.button');
@@ -92,8 +92,7 @@ function handleDigitClick(digit) {
 
 function handleOperatorClick(nextOperator) {
     const inputValue = Number(currentDisplayValue);
-
-    if (firstOperand !== null && operator !== null && waitingForSecondOperand) {
+    if (waitingForSecondOperand && firstOperand !== null && operator === null) {
         operator = nextOperator;
         historyDisplay.textContent = `${firstOperand} ${operator}`;
         removeOperatorActiveClass();
@@ -126,6 +125,7 @@ function handleOperatorClick(nextOperator) {
     }
 
     operator = nextOperator;
+    lastOperatorUsed = nextOperator;
     waitingForSecondOperand = true;
     historyDisplay.textContent = `${firstOperand} ${operator}`;
 
@@ -144,30 +144,30 @@ function handleEqualsClick() {
     }
 
     let currentSecondOperand = Number(currentDisplayValue);
+    let opToUse = operator;
+    let operandToUse = currentSecondOperand;
 
     if (operator === null && waitingForSecondOperand) {
-        if (lastSecondOperand !== null) {
-             const result = operate(operator, firstOperand, lastSecondOperand);
-             currentDisplayValue = String(result);
-             firstOperand = result;
-             historyDisplay.textContent = `${firstOperand} ${operator} ${lastSecondOperand} =`;
+        if (lastOperatorUsed !== null && lastSecondOperand !== null) {
+            opToUse = lastOperatorUsed;
+            operandToUse = lastSecondOperand;
+        } else {
+            return;
         }
-        return;
+    }
+    else if (waitingForSecondOperand) {
+        operandToUse = firstOperand;
     }
 
-
-    if (waitingForSecondOperand) {
-        currentSecondOperand = firstOperand;
-    }
-
-
-    const result = operate(operator, firstOperand, currentSecondOperand);
+    const result = operate(opToUse, firstOperand, operandToUse);
 
     if (result === "ERROR: Div/0!") {
         currentDisplayValue = result;
         firstOperand = null;
         operator = null;
         waitingForSecondOperand = false;
+        lastOperatorUsed = null;
+        lastSecondOperand = null;
         historyDisplay.textContent = '';
         removeOperatorActiveClass();
         updateDisplay();
@@ -175,10 +175,11 @@ function handleEqualsClick() {
     }
 
     currentDisplayValue = String(result);
-    historyDisplay.textContent = `${firstOperand} ${operator} ${currentSecondOperand} =`;
+    historyDisplay.textContent = `${firstOperand} ${opToUse} ${operandToUse} =`;
 
     firstOperand = result;
-    lastSecondOperand = currentSecondOperand;
+    lastSecondOperand = operandToUse;
+    lastOperatorUsed = opToUse;
     operator = null;
     waitingForSecondOperand = true;
 
@@ -191,6 +192,7 @@ function handleClearClick() {
     operator = null;
     waitingForSecondOperand = false;
     lastSecondOperand = null;
+    lastOperatorUsed = null;
     historyDisplay.textContent = '';
     removeOperatorActiveClass();
     decimalButton.disabled = false;
@@ -231,6 +233,8 @@ function handlePercentClick() {
             historyDisplay.textContent = `${num}% =`;
             firstOperand = Number(currentDisplayValue);
             operator = null;
+            lastOperatorUsed = null;
+            lastSecondOperand = null;
             waitingForSecondOperand = true;
             removeOperatorActiveClass();
             return;
@@ -240,20 +244,20 @@ function handlePercentClick() {
         currentDisplayValue = String(result);
         historyDisplay.textContent = `${firstOperand} ${operator} ${num}% =`;
         firstOperand = result;
-        operator = null;
         lastSecondOperand = displayOperand;
-
+        lastOperatorUsed = operator;
+        operator = null;
     } else {
         currentDisplayValue = String(num / 100);
         historyDisplay.textContent = `${num}% =`;
         firstOperand = Number(currentDisplayValue);
-        operator = null;
         lastSecondOperand = null;
+        lastOperatorUsed = null;
+        operator = null;
     }
     waitingForSecondOperand = true;
     removeOperatorActiveClass();
 }
-
 
 function handleSignChangeClick() {
     if (currentDisplayValue === 'ERROR: Div/0!') {
