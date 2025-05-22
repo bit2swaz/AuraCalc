@@ -130,6 +130,39 @@ function handleClearClick() {
     historyDisplay.textContent = '';
 }
 
+function handleBackspaceClick() {
+    if (waitingForSecondOperand || currentDisplayValue === 'ERROR: Div/0!') {
+        return;
+    }
+    if (currentDisplayValue.length > 1) {
+        currentDisplayValue = currentDisplayValue.slice(0, -1);
+    } else {
+        currentDisplayValue = '0';
+    }
+}
+
+function handleKeyboardInput(e) {
+    if (e.key >= '0' && e.key <= '9') {
+        handleDigitClick(e.key);
+    }
+    else if (e.key === '.') {
+        handleDigitClick(e.key);
+    } else if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/') {
+        handleOperatorClick(e.key);
+    } else if (e.key === 'Enter' || e.key === '=') {
+        e.preventDefault(); 
+        handleEqualsClick();
+    } else if (e.key === 'Backspace') {
+        handleBackspaceClick();
+    } else if (e.key === 'Escape') {
+        handleClearClick();
+    } else if (e.key === '%') {
+        handleOperatorClick(e.key);
+    }
+    updateDisplay();
+}
+window.addEventListener('keydown', handleKeyboardInput);
+
 const add = (a, b) => a + b;
 const subtract = (a, b) => a - b;
 const multiply = (a, b) => a * b;
