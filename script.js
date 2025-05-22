@@ -9,3 +9,9 @@ const buttons = document.querySelector('.button');
 
 mainDisplay.textContent = currentDisplayValue;
 historyDisplay.textContent = '';
+
+buttons.forEach(button => {
+    button.addEventListener('click', () => {
+        console.log(`Button clicked: ${button.textContent}`);
+    });
+});
