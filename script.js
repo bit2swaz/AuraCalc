@@ -32,10 +32,10 @@ buttons.forEach(button => {
             handleEqualsClick();
         }
         else if (button.classList.contains('clear')) {
-            console.log(`Clear clicked`);
+            handleClearClick();
         }
         else if (button.classList.contains('backspace')) {
-            console.log(`Backspace clicked`);
+            handleBackspaceClick();
         }
 
         updateDisplay();
@@ -121,6 +121,8 @@ function handleEqualsClick() {
     operator = null;
     waitingForSecondOperand = true;
 }
+
+
 
 const add = (a, b) => a + b;
 const subtract = (a, b) => a - b;
