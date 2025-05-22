@@ -95,7 +95,32 @@ function handleOperatorClick(nextOperator) {
     updateDisplay();
 }
 
+function handleEqualsClick() {
+    if (firstOperand === null || operator === null || waitingForSecondOperand) {
+        console.log("Cannot evaluate: Incomplete expression or waiting for second operand.");
+        return;
+    }
 
+    const secondOperand = Number(currentDisplayValue);
+    const result = operate(operator, firstOperand, secondOperand);
+
+    if (result === "ERROR: Div/0!") {
+        currentDisplayValue = result;
+        firstOperand = null;
+        operator = null;
+        waitingForSecondOperand = false;
+        historyDisplay.textContent = '';
+        updateDisplay();
+        return;
+    }
+
+    currentDisplayValue = String(result);
+    historyDisplay.textContent = `${firstOperand} ${operator} ${secondOperand} =`;
+
+    firstOperand = result;
+    operator = null;
+    waitingForSecondOperand = true;
+}
 
 const add = (a, b) => a + b;
 const subtract = (a, b) => a - b;
