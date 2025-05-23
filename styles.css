@@ -244,9 +244,18 @@ footer a {
     color: var(--equals-button-bg);
     text-decoration: none;
     font-weight: bold;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    display: inline-block;
 }
 
 footer a:hover {
+    color: var(--equals-button-hover-bg);
     text-decoration: underline;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+footer a:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 3px var(--shadow-color);
 }
