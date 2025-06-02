@@ -42,7 +42,7 @@ A modern, intuitive, and responsive calculator application built entirely with *
 
 ## How to Run Locally
 ```bash
-git clone [https://github.com/bit2swaz/awesome-calculator.git](https://github.com/bit2swaz/awesome-calculator.git)
+git clone https://github.com/bit2swaz/awesome-calculator.git
 cd awesome-calculator
 open index.html
 ```
